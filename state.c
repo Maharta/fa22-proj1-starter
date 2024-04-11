@@ -20,11 +20,54 @@ static void find_head(game_state_t* state, unsigned int snum);
 static char next_square(game_state_t* state, unsigned int snum);
 static void update_tail(game_state_t* state, unsigned int snum);
 static void update_head(game_state_t* state, unsigned int snum);
+void setInitialSnakeState(game_state_t *default_state);
+
+const static uint8_t head_start[2] = {2, 4};
+const static uint8_t tail_start[2] = {2, 2};
+const static uint8_t fruit_start[2] = {2, 9};
+const static uint8_t body_start[2] = {2, 3};
+const static uint8_t boardRow = 18;
+const static uint8_t boardCol = 20;
+
 
 /* Task 1 */
 game_state_t* create_default_state() {
-  // TODO: Implement this function.
-  return NULL;
+  game_state_t* default_state = (game_state_t*) malloc(sizeof(game_state_t));
+
+  setInitialSnakeState(default_state);
+
+  default_state->num_rows = boardRow;
+  default_state->num_snakes = 1;
+
+  char** board = (char**) malloc((boardRow) * sizeof(char*));
+
+  for (int i = 0; i < boardRow; i++) {
+    board[i] = (char*) malloc(sizeof(char) * boardCol);
+    for (int j = 0; j < boardCol; j++) {
+      if ((j == 0 || j == boardCol - 1) || (i == 0 || i == boardRow - 1)) {
+        board[i][j] = '#';
+      } else {
+        board[i][j] = ' ';
+      }
+    }
+  }
+
+  default_state->board = board;
+  set_board_at(default_state, head_start[0], head_start[1], 'D');
+  set_board_at(default_state, tail_start[0], tail_start[1], 'd');
+  set_board_at(default_state, body_start[0], body_start[1], '>');
+  set_board_at(default_state, fruit_start[0], fruit_start[1], '*');
+  return default_state;
+}
+
+void setInitialSnakeState(game_state_t* default_state)
+{
+  default_state->snakes = malloc(sizeof(snake_t));
+  default_state->snakes->live = true;
+  default_state->snakes->head_row = head_start[0];
+  default_state->snakes->head_col = head_start[1];
+  default_state->snakes->tail_row = tail_start[0];
+  default_state->snakes->tail_col = tail_start[1];
 }
 
 /* Task 2 */
