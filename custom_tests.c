@@ -98,6 +98,21 @@ bool test_is_vowel() {
 
 bool test_is_tail() {
   // TODO: Implement this function.
+  char testcase_1 = 'w';
+
+  bool output1 = is_tail(testcase_1);
+  if (!assert_true("output1", output1)) {
+    return false;
+  }
+
+
+  char testcase_2 = 'W';
+
+  bool output2 = is_tail(testcase_2);
+  if (!assert_false("output1", output2)) {
+    return false;
+  }
+
   return true;
 }
 
